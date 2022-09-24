@@ -4,10 +4,10 @@ import Head from 'next/head'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <Head>
-      <title> The Machine Musician </title>
-      <Component {...pageProps} />
-    </Head>
+    // <Head>
+    //   <title> The Machine Musician </title>
+    <Component {...pageProps} />
+    // </Head>
   )
 }
 
