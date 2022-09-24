@@ -45,7 +45,29 @@ export const sharpAccidentalComponent = (
     </div>
 )
 
-const getStyle = (noteLetter: string, bassClef: boolean, octave: number, chordPosition?: number): number => {
+const getDurationStyle = (duration: number) => {
+    let style = Styles.quarter
+    switch (duration) {
+        case 1:
+            style = Styles.whole
+            break
+        case 1 / 2:
+            style = Styles.half
+            break
+        case 1 / 4:
+            style = Styles.quarter
+            break
+        case 1 / 8:
+            style = Styles.eigth
+            break
+        case 1 / 16:
+            style = Styles.sixteenth
+            break
+    }
+    return style
+}
+
+const getPositionStyle = (noteLetter: string, bassClef: boolean, octave: number, chordPosition?: number): number => {
     let shifts = 0
     switch (noteLetter) {
         case 'A':
@@ -377,16 +399,16 @@ const Note: React.FC<NoteProps> = (props) => {
         return <div />
     }
     const letter = notesCharacters[0]
-    const shifts = getStyle(letter, bassClef ? true : false, octave, chordPosition || undefined)
+    const shifts = getPositionStyle(letter, bassClef ? true : false, octave, chordPosition || undefined)
     const pixelShifts = shifts * (-15)
     let rawAccidentals = (note.length > 1) ? note.substring(1) : ''
     const accidentals = rawAccidentals.replaceAll('b', '♭').replaceAll('#', '♯')
     return (
-        <div style={{ display: 'flex', flexDirection: 'row', translate: `0 ${pixelShifts}px`, marginRight: '20px', marginLeft: '20px' }}>
-            {/* <p style={{ width: '3px', fontSize: '6px', translate: '0 -23px' }}>{accidentals}</p> */}
-            <div className={`${Styles.quarter}`}>
+        <div className={Styles.noteContainer} style={{ display: 'flex', flexDirection: 'row', translate: `0 ${pixelShifts}px`, marginRight: '20px', marginLeft: '20px' }}>
+            <div className={getDurationStyle(duration)}>
                 <p className={Styles.accidentalText}>{`${accidentals}`}</p>
             </div>
+            {(duration === 1 / 2 || duration === 1 / 4) && <div className={(((bassClef && shifts > 2) || !bassClef && shifts > 11)) ? Styles.downTail : Styles.upTail} />}
         </div>
     )
 }
