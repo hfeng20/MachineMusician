@@ -1,0 +1,25 @@
+{
+  "name": "machine-musician",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "npx kill-port 6581; next -p 6581",
+    "build": "GENERATE_SOURCEMAP=false next build",
+    "lint": "eslint './src/**' --fix && eslint './pages/**' --fix",
+    "pretty": "prettier --write \"./**/*.{js,jsx,ts,tsx,json}\"",
+    "nuke": "rm -rf node_modules/; rm -rf package-lock.json; npm i"
+  },
+  "dependencies": {
+    "next": "12.3.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.7.18",
+    "@types/react": "18.0.20",
+    "@types/react-dom": "18.0.6",
+    "eslint": "8.23.1",
+    "eslint-config-next": "12.3.1",
+    "typescript": "4.8.3"
+  }
+}

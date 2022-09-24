@@ -1,0 +1,74 @@
+.container {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.staff {
+     width: 90%;
+}
+.flexWeight {
+    flex: 1;
+}
+.staffLine {
+    height: 15px;
+    border: 1.5px solid black;
+    border-right: 4px solid black;
+    border-left: 4px solid black;
+    border-bottom: none;
+}
+
+.staffLineLast {
+    height: 15px;
+    border: 1.5px solid black;
+    border-right: 4px solid black;
+    border-left: 4px solid black;
+}
+
+.centerSpace {
+    height: 15px;
+    border-right: 4px solid black;
+    border-left: 4px solid black;
+}
+
+.curlyBracket {
+    rotate: -90deg;
+    height: 35px;
+}
+
+.notesContainer {
+    display: flex;
+}
+
+.inputContainer {
+    display: flex;
+}
+
+.input {
+    align-self: center;
+    height: 30px;
+    font-size: 18px;
+    width: 60px;
+    text-align: center;
+}
+
+.select {
+    margin-right: 20px;
+    align-self: center;
+    height: 30px;
+}
+
+.button {
+    background-color:brown;
+    box-shadow: none;
+    border: 1px solid black;
+    border-radius: 6px;
+    color: beige;
+    width: 200px;
+    height: 50px;
+    font-size: 20px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}

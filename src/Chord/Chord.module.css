@@ -1,0 +1,4 @@
+.chordContainer {
+    display: flex;
+    flex-direction: column;
+}
