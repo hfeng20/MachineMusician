@@ -1,7 +1,3 @@
-.accidentalText {
-    font-style: italic
-}
-
 .whole {
     border-radius: 100px;
     border: 4px solid black;
@@ -45,7 +41,14 @@
     translate: -16px -35px;
     font-size: 25px;
     height: 20px;
-    rotate: -10deg;
+    rotate: 10deg;
+}
+
+.offsetAccidental {
+    translate: -31px -35px;
+    font-size: 25px;
+    height: 20px;
+    rotate: 10deg;
 }
 
 .noteContainer {

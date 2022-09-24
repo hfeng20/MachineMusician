@@ -31,6 +31,7 @@ interface NoteProps {
     duration: number,
     bassClef?: boolean,
     chordPosition?: number,
+    noteOffset?: boolean,
 }
 
 export const flatAccidentalComponent = (
@@ -376,7 +377,7 @@ export const getMajorThird = (note: string): string => {
 }
 
 const Note: React.FC<NoteProps> = (props) => {
-    const { note, octave, duration, bassClef, chordPosition } = props
+    const { note, octave, duration, bassClef, chordPosition, noteOffset } = props
     let error = false
     if (!note || note.length < 1) {
         return <div />
@@ -404,12 +405,12 @@ const Note: React.FC<NoteProps> = (props) => {
     let rawAccidentals = (note.length > 1) ? note.substring(1) : ''
     const accidentals = rawAccidentals.replaceAll('b', '♭').replaceAll('#', '♯')
     return (
-        <div className={Styles.noteContainer} style={{ display: 'flex', flexDirection: 'row', translate: `0 ${pixelShifts}px`, marginRight: '20px', marginLeft: '20px' }}>
+        <div className={`${Styles.noteContainer}`} style={{ display: 'flex', flexDirection: 'row', translate: `${noteOffset ? '15px' : '0px'} ${pixelShifts}px`, marginRight: '20px', marginLeft: '20px' }}>
             <div className={getDurationStyle(duration)}>
-                <p className={Styles.accidentalText}>{`${accidentals}`}</p>
+                <p className={`${noteOffset ? Styles.offsetAccidental : Styles.accidentalText}`}>{`${accidentals}`}</p>
             </div>
-            {(duration === 1 / 2 || duration === 1 / 4) && <div className={(((bassClef && shifts > 2) || !bassClef && shifts > 11)) ? Styles.downTail : Styles.upTail} />}
-        </div>
+            {(duration === 1 / 2 || duration === 1 / 4) && !noteOffset && <div className={(((bassClef && shifts > 2) || !bassClef && shifts > 11)) ? Styles.downTail : Styles.upTail} />}
+        </div >
     )
 }
 

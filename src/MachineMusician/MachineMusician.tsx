@@ -5,6 +5,7 @@ import Styles from './MachineMusician.module.css'
 import { CHORD_STACKS, SEVENTH_CHORD_STACKS } from "../Chord/Chord";
 import { LETTERS } from "../Note/Note";
 import StaffHeader from "../StaffHeader/StaffHeader";
+import MeasureLine from "../MeasureLine/MeasureLine";
 
 export const MAJOR_SCALE_FORM = [2, 2, 1, 2, 2, 2]
 
@@ -34,7 +35,7 @@ export const MAJOR_PROGRESSION_MAP = [
     { value: 1, quality: CHORD_STACKS.Minor, inversions: [], paths: [4, 6] },
     { value: 2, quality: CHORD_STACKS.Minor, inversions: [], paths: [3, 5] },
     { value: 3, quality: CHORD_STACKS.Major, inversions: [], paths: [0, 1, 4, 6] },
-    { value: 4, quality: CHORD_STACKS.Major, inversions: [], paths: [0, 5, 6] },
+    { value: 4, quality: SEVENTH_CHORD_STACKS.Dominant, inversions: [], paths: [0, 5, 6] },
     { value: 5, quality: CHORD_STACKS.Minor, inversions: [], paths: [3] },
     { value: 6, quality: CHORD_STACKS.Diminished, inversions: [], paths: [0] },
 ]
@@ -51,7 +52,9 @@ export const MINOR_PROGRESSION_MAP = [
 
 const MachineMusician: React.FC = () => {
     const [scale, setScale] = useState<any[]>([])
+    const [numMeasures, setNumMeasures] = useState(0)
     const [key, setKey] = useState('')
+    const [timeSig, setTimeSig] = useState(4)
     const [quality, setQuality] = useState('')
     const [chordProgression, setChordProgression] = useState<any[]>()
     const [chords, setChords] = useState<any[]>()
@@ -109,9 +112,12 @@ const MachineMusician: React.FC = () => {
         if (!chordProgression) return
         let currentIndex = 0
         chordProgression.forEach((chord) => {
+            if (currentIndex % 4 === 0 && currentIndex !== 0) {
+                newChords.push((<MeasureLine />))
+            }
             newChords.push([(<Chord
                 root={scale[chord.value]}
-                rootOctave={3}
+                rootOctave={LETTERS.indexOf(scale[chord.value].substring(0, 1)) >= LETTERS.indexOf('F') ? 2 : 3}
                 rootDuration={(chord.value === 0 && currentIndex === chordProgression.length - 1) ? 1 : 1 / 4}
                 rootVolume={1}
                 quality={chord.quality}
@@ -119,6 +125,7 @@ const MachineMusician: React.FC = () => {
             />)])
             currentIndex = currentIndex + 1
         })
+        setNumMeasures(Math.ceil(newChords.length / timeSig))
         setChords(newChords)
     }, [chordProgression])
 

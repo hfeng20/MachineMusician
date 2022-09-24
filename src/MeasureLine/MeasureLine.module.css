@@ -1,0 +1,6 @@
+.line {
+    height: 195px;
+    translate: 0 -195px;
+    width: 2px;
+    border: 1px solid black;
+}
