@@ -280,7 +280,7 @@ export const getMinorThird = (note: string): string => {
     }
     const tail = note.length > 1 ? notesCharacters.slice(1, notesCharacters.length) : []
     if (tail.length > 0 && tail !== null) {
-        tail.forEach((character) => {
+        tail.map((character) => {
             if (character === '#') {
                 if (newNote.includes('b')) {
                     newNote = newNote.substring(0, newNote.length - 1)
@@ -331,7 +331,7 @@ export const getMajorThird = (note: string): string => {
     }
     const tail = note.length > 1 ? notesCharacters.slice(1, notesCharacters.length) : []
     if (tail.length > 0 && tail !== null) {
-        tail.forEach((character) => {
+        tail.map((character) => {
             if (character === '#') {
                 if (newNote.includes('b')) {
                     newNote = newNote.substring(0, newNote.length - 1)
@@ -367,7 +367,7 @@ const Note: React.FC<NoteProps> = (props) => {
     const tail = note.length > 1 ? notesCharacters.slice(1, notesCharacters.length) : []
 
     if (note.length > 1 && tail !== null) {
-        tail.forEach((tailCharacter) => {
+        tail.map((tailCharacter) => {
             if (tailCharacter !== accidental) {
                 error = true
             }
