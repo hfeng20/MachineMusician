@@ -61,7 +61,7 @@ const Chord: React.FC<ChordProps> = (props) => {
     const noteObjectList = notes.map((curNote) => {
         const tail = (curNote.note.length > 1) ? curNote.note.substring(1) : undefined
         return (
-            <Note note={curNote.note} accidentals={tail} octave={curNote.octave} duration={curNote.duration} bassClef={true} chordPosition={notes.indexOf(curNote)} />
+            <Note key={curNote.note} note={curNote.note} accidentals={tail} octave={curNote.octave} duration={curNote.duration} bassClef={true} chordPosition={notes.indexOf(curNote)} />
         )
     })
     return (
