@@ -279,24 +279,26 @@ export const getMinorThird = (note: string): string => {
             break
     }
     const tail = note.length > 1 ? notesCharacters.slice(1, notesCharacters.length) : []
-    tail.forEach((character) => {
-        if (character === '#') {
-            if (newNote.includes('b')) {
-                newNote = newNote.substring(0, newNote.length - 1)
+    if (tail.length > 0) {
+        tail.forEach((character) => {
+            if (character === '#') {
+                if (newNote.includes('b')) {
+                    newNote = newNote.substring(0, newNote.length - 1)
+                }
+                else {
+                    newNote = newNote + '#'
+                }
             }
-            else {
-                newNote = newNote + '#'
+            else if (character === 'b') {
+                if (newNote.includes('#')) {
+                    newNote = newNote.substring(0, newNote.length - 1)
+                }
+                else {
+                    newNote = newNote + 'b'
+                }
             }
-        }
-        else if (character === 'b') {
-            if (newNote.includes('#')) {
-                newNote = newNote.substring(0, newNote.length - 1)
-            }
-            else {
-                newNote = newNote + 'b'
-            }
-        }
-    })
+        })
+    }
     return newNote
 }
 
@@ -328,24 +330,26 @@ export const getMajorThird = (note: string): string => {
             break
     }
     const tail = note.length > 1 ? notesCharacters.slice(1, notesCharacters.length) : []
-    tail.forEach((character) => {
-        if (character === '#') {
-            if (newNote.includes('b')) {
-                newNote = newNote.substring(0, newNote.length - 1)
+    if (tail.length > 0) {
+        tail.forEach((character) => {
+            if (character === '#') {
+                if (newNote.includes('b')) {
+                    newNote = newNote.substring(0, newNote.length - 1)
+                }
+                else {
+                    newNote = newNote + '#'
+                }
             }
-            else {
-                newNote = newNote + '#'
+            else if (character === 'b') {
+                if (newNote.includes('#')) {
+                    newNote = newNote.substring(0, newNote.length - 1)
+                }
+                else {
+                    newNote = newNote + 'b'
+                }
             }
-        }
-        else if (character === 'b') {
-            if (newNote.includes('#')) {
-                newNote = newNote.substring(0, newNote.length - 1)
-            }
-            else {
-                newNote = newNote + 'b'
-            }
-        }
-    })
+        })
+    }
     return newNote
 }
 
