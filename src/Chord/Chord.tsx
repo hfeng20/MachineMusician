@@ -33,6 +33,37 @@ export enum SEVENTH_CHORD_STACKS {
     Dominant = 'Mmm'
 }
 
+export const getChordNotes = (root: string, rootOctave: number, rootDuration: number, rootVolume: number, quality: string, structure: string) => {
+    let notes = [{ note: root, octave: rootOctave, duration: rootDuration, volume: rootVolume }]
+    const isSeventh = (SEVENTH_STRUCTURES.includes(structure))
+    let curOctave = rootOctave
+    for (let third of quality.split('')) {
+        const curNote = notes[notes.length - 1].note
+        const curLetter = curNote.charAt(0)
+        if ((curLetter === 'F' || curLetter === 'G')) {
+            curOctave = curOctave + 1
+        }
+        let nextNote = 'Z'
+        switch (third) {
+            case 'M':
+                nextNote = getMajorThird(curNote)
+                break
+            case 'm':
+                nextNote = getMinorThird(curNote)
+                break
+        }
+        notes = [...notes, { note: nextNote, octave: curOctave, duration: rootDuration, volume: rootVolume }]
+    }
+    const numMoves = isSeventh ? SEVENTH_STRUCTURES.indexOf(structure) : STRUCTURES.indexOf(structure)
+    let shifts = 0
+    while (shifts < numMoves) {
+        let moveNote = notes[0]
+        notes = [...notes.slice(1), { ...moveNote, octave: moveNote.octave + 1 }]
+        shifts += 1
+    }
+    return notes
+}
+
 const Chord: React.FC<ChordProps> = (props) => {
     const { root, rootOctave, rootDuration, rootVolume, quality, structure } = props
     let notes = [{ note: root, octave: rootOctave, duration: rootDuration, volume: rootVolume }]
@@ -62,7 +93,6 @@ const Chord: React.FC<ChordProps> = (props) => {
         notes = [...notes.slice(1), { ...moveNote, octave: moveNote.octave + 1 }]
         shifts += 1
     }
-    console.log(notes)
     const noteObjectList = notes.map((curNote) => {
         const index = notes.indexOf(curNote)
         const tail = (curNote.note.length > 1) ? curNote.note.substring(1) : undefined

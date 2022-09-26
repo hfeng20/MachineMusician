@@ -133,13 +133,17 @@ const MachineMusician: React.FC = () => {
         let progression: any[]
         if (quality === 'M') {
             progression = [MAJOR_PROGRESSION_MAP[0]]
-            while (progression.length < 8) {
+            while (progression.length < 9) {
                 do {
                     const possiblePaths = (progression[progression.length - 1]).paths
-                    progression = [...progression, MAJOR_PROGRESSION_MAP[possiblePaths[Math.floor(Math.random() * possiblePaths.length)]]]
+                    if (progression.length > 8 && possiblePaths.includes(0)) {
+                        progression = [...progression, MAJOR_PROGRESSION_MAP[0]]
+                    } else {
+                        progression = [...progression, MAJOR_PROGRESSION_MAP[possiblePaths[Math.floor(Math.random() * possiblePaths.length)]]]
+                    }
                 } while (progression.length === 0 || progression[progression.length - 1].value !== 0)
             }
-            if (progression.length % 4 === 1) {
+            if (progression.length % 4 === 1 && progression.length === 9) {
                 progression = [...progression, MAJOR_PROGRESSION_MAP[3], MAJOR_PROGRESSION_MAP[1], MAJOR_PROGRESSION_MAP[4], MAJOR_PROGRESSION_MAP[0]]
             } else if (progression.length % 4 === 2) {
                 progression = [...progression, MAJOR_PROGRESSION_MAP[1], MAJOR_PROGRESSION_MAP[4], MAJOR_PROGRESSION_MAP[0]]
@@ -187,7 +191,7 @@ const MachineMusician: React.FC = () => {
                 <div className={Styles.staffLine} />
                 <div className={Styles.staffLine} />
                 <div className={Styles.staffLineLast} />
-                <div className={Styles.notesContainer}>
+                <div className={Styles.chordsContainer}>
                     <StaffHeader />
                     {chords}
                 </div>

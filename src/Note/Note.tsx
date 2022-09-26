@@ -405,7 +405,7 @@ const Note: React.FC<NoteProps> = (props) => {
     let rawAccidentals = (note.length > 1) ? note.substring(1) : ''
     const accidentals = rawAccidentals.replaceAll('b', '♭').replaceAll('#', '♯')
     return (
-        <div className={`${Styles.noteContainer}`} style={{ display: 'flex', flexDirection: 'row', translate: `${noteOffset ? '15px' : '0px'} ${pixelShifts}px`, marginRight: '20px', marginLeft: '20px' }}>
+        <div className={`${Styles.noteContainer}`} style={{ display: 'flex', flexDirection: 'row', translate: `${noteOffset ? '15px' : '0px'} ${pixelShifts}px` }}>
             <div className={getDurationStyle(duration)}>
                 <p className={`${noteOffset ? Styles.offsetAccidental : Styles.accidentalText}`}>{`${accidentals}`}</p>
             </div>
