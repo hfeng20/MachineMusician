@@ -1,6 +1,12 @@
 .container {
+    height: 0;
     display: flex;
     flex-direction: column;
+}
+
+.superContainer {
+    display: flex;
+    flex-direction: row;
 }
 
 .trebleImg {
@@ -13,4 +19,43 @@
     margin-left: 10px;
     width: 40px;
     translate: 10px -160px;
+}
+
+.trebleTimeSig {
+    width: 30px;
+    translate: 0 -180px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.bassTimeSig {
+    width: 30px;
+    translate: 0 -75px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.staff {
+     min-width: 10px;
+}
+
+.staffLine {
+    height: 15px;
+    border: 1.5px solid black;
+    border-left: 4px solid black;
+    border-bottom: none;
+    border-right: none;
+}
+
+.staffLineLast {
+    height: 15px;
+    border: 1.5px solid black;
+    border-right: none;
+    border-left: 4px solid black;
+}
+
+.centerSpace {
+    height: 15px;
+    border-right: none;
+    border-left: 4px solid black;
 }

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import Note from "../Note";
 import Chord from "../Chord";
 import Styles from './MachineMusician.module.css'
-import { CHORD_STACKS, SEVENTH_CHORD_STACKS } from "../Chord/Chord";
+import { CHORD_STACKS, getChordNotes, SEVENTH_CHORD_STACKS } from "../Chord/Chord";
 import { LETTERS } from "../Note/Note";
 import StaffHeader from "../StaffHeader/StaffHeader";
-import MeasureLine from "../MeasureLine/MeasureLine";
+import Measure from "../Measure/Measure";
+import Staff from "../Staff/Staff";
 
 export const MAJOR_SCALE_FORM = [2, 2, 1, 2, 2, 2]
 
@@ -57,8 +58,10 @@ const MachineMusician: React.FC = () => {
     const [timeSig, setTimeSig] = useState(4)
     const [quality, setQuality] = useState('')
     const [chordProgression, setChordProgression] = useState<any[]>()
-    const [chords, setChords] = useState<any[]>()
-    const [shouldGenerateChordProgression, setShouldGenerateChordProgression] = useState(false)
+    const [melody, setMelody] = useState<any[]>()
+    const [melodyElements, setMelodyElements] = useState<any[]>([])
+    const [chords, setChords] = useState<any[]>([])
+    const [shouldGenerate, setShouldGenerate] = useState(false)
 
     useEffect(() => {
         if (key === '' || quality === '') {
@@ -94,40 +97,82 @@ const MachineMusician: React.FC = () => {
                 })
             })
         }
-        console.log(newScale)
         setScale(newScale)
     }, [quality, key])
 
     useEffect(() => {
-        if (!shouldGenerateChordProgression || (scale.length < 1 || key === '') || quality === '') {
-
+        if (!shouldGenerate || (scale.length < 1 || key === '') || quality === '') {
             return
         }
         setChordProgression(generateChordProgression())
-        setShouldGenerateChordProgression(false)
-    }, [shouldGenerateChordProgression])
+        setShouldGenerate(false)
+    }, [shouldGenerate])
 
     useEffect(() => {
-        let newChords: any[] = []
         if (!chordProgression) return
         let currentIndex = 0
-        chordProgression.forEach((chord) => {
-            if (currentIndex % 4 === 0 && currentIndex !== 0) {
-                newChords.push((<MeasureLine />))
-            }
-            newChords.push([(<Chord
+        const newChords = chordProgression.map((chord) => {
+            currentIndex = currentIndex + 1
+            return (<Chord
                 root={scale[chord.value]}
                 rootOctave={LETTERS.indexOf(scale[chord.value].substring(0, 1)) >= LETTERS.indexOf('F') ? 2 : 3}
-                rootDuration={(chord.value === 0 && currentIndex === chordProgression.length - 1) ? 1 : 1 / 4}
+                rootDuration={(chord.value === 0 && currentIndex === chordProgression.length) ? 1 : 1 / 4}
                 rootVolume={1}
                 quality={chord.quality}
                 structure={'5'}
-            />)])
-            currentIndex = currentIndex + 1
+            />)
         })
         setNumMeasures(Math.ceil(newChords.length / timeSig))
         setChords(newChords)
+        setMelody(generateMelody())
     }, [chordProgression])
+
+    useEffect(() => {
+        if (!melody) return
+        let currentIndex = 0
+        const newMelody = melody.map((note) => {
+            currentIndex = currentIndex + 1
+            console.log(note[0].root)
+            return (<Note
+                note={note[0].root}
+                octave={note[0].octave}
+                duration={note[0].duration}
+            />)
+        })
+        setMelodyElements(newMelody)
+    }, [melody])
+
+    const generateMelody = (): any[] => {
+        let newMelody: any[] = []
+        if (!chordProgression || chordProgression.length < 1) {
+            return []
+        }
+        chordProgression.map((chord, index) => {
+            if (index === 0) {
+                newMelody = [...newMelody, [{ root: scale[chord.value], octave: 5, duration: 1 / 4 }]]
+                return
+            } if (index === chordProgression.length - 1) {
+                newMelody = [...newMelody, [{ root: scale[chord.value], octave: 5, duration: 1 / 4 }]]
+                return
+            }
+            const previousNote = newMelody[newMelody.length - 1][newMelody[newMelody.length - 1].length - 1]
+            const curIndex = LETTERS.indexOf(previousNote.root.substring(0, 1))
+            const possibleNotes = getChordNotes(scale[chord.value], previousNote.octave, 1 / 8, 1, chord.quality, '').map((note) => {
+                return note.note
+            })
+            let minDistance = 12
+            let minDistanceNote = { root: 'Z', octave: 5, duration: 1 / 4 }
+            possibleNotes.forEach((note) => {
+                if (Math.abs(LETTERS.indexOf(note.substring(0, 1)) - curIndex) < minDistance) {
+                    minDistance = LETTERS.indexOf(note.substring(0, 1)) - curIndex
+                    minDistanceNote = { root: note, octave: previousNote.octave, duration: 1 / 4 }
+                }
+            })
+            newMelody = [...newMelody, [minDistanceNote]]
+        })
+        console.log(newMelody)
+        return newMelody
+    }
 
     const generateChordProgression = (): number[] => {
         let progression: any[]
@@ -172,30 +217,9 @@ const MachineMusician: React.FC = () => {
         }
         return progression
     }
-
     return (
         <div className={Styles.container}>
-            <div className={Styles.staff}>
-                <div className={Styles.staffLine} />
-                <div className={Styles.staffLine} />
-                <div className={Styles.staffLine} />
-                <div className={Styles.staffLineLast} />
-
-                <div className={Styles.centerSpace} />
-                <div className={Styles.centerSpace} />
-                <div className={Styles.centerSpace} />
-                <div className={Styles.centerSpace} />
-                <div className={Styles.centerSpace} />
-
-                <div className={Styles.staffLine} />
-                <div className={Styles.staffLine} />
-                <div className={Styles.staffLine} />
-                <div className={Styles.staffLineLast} />
-                <div className={Styles.chordsContainer}>
-                    <StaffHeader />
-                    {chords}
-                </div>
-            </div>
+            <Staff melody={melodyElements} chords={chords} />
             <div className={Styles.inputContainer}>
                 <input
                     className={Styles.input}
@@ -215,7 +239,7 @@ const MachineMusician: React.FC = () => {
                 <button
                     className={Styles.button}
                     onClick={() => {
-                        setShouldGenerateChordProgression(true)
+                        setShouldGenerate(true)
                     }}
                 > Create music! </button>
             </div>

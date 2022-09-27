@@ -1,0 +1,41 @@
+.chordsContainer {
+    display: flex;
+}
+
+.melodyContainer {
+    display: flex;
+}
+
+.notesContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.staffLine {
+    height: 15px;
+    border: 1.5px solid black;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+    border-bottom: none;
+}
+
+.staffLineLast {
+    height: 15px;
+    border: 1.5px solid black;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+}
+
+.centerSpace {
+    height: 15px;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+}
+
+.first {
+    border-left: none;
+}
+
+.last {
+    border-right: 4px solid black;
+}
