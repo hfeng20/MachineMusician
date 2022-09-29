@@ -28,7 +28,7 @@ const Staff: React.FC<StaffProps> = (props) => {
     return (
         <div className={Styles.container}>
             <StaffHeader key={key} timeSignature={timeSignature} />
-            {measures}
+            {measures.length < 1 ? <Measure melody={[]} chords={[]} last={true} /> : measures}
         </div>
     )
 }

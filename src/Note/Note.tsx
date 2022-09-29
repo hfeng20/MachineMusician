@@ -405,11 +405,12 @@ const Note: React.FC<NoteProps> = (props) => {
     let rawAccidentals = (note.length > 1) ? note.substring(1) : ''
     const accidentals = rawAccidentals.replaceAll('b', '♭').replaceAll('#', '♯')
     return (
-        <div className={`${Styles.noteContainer}`} style={{ display: 'flex', flexDirection: 'row', translate: `${noteOffset ? '15px' : '0px'} ${pixelShifts}px` }}>
+        <div className={`${duration === 1 / 8 ? Styles.eigthNoteContainer : Styles.noteContainer}`} style={{ display: 'flex', flexDirection: 'row', translate: `${noteOffset ? '15px' : '0px'} ${pixelShifts}px` }}>
             <div className={getDurationStyle(duration)}>
                 <p className={`${noteOffset ? Styles.offsetAccidental : Styles.accidentalText}`}>{`${accidentals}`}</p>
             </div>
-            {(duration === 1 / 2 || duration === 1 / 4) && !noteOffset && <div className={(((bassClef && shifts > 2) || !bassClef && shifts > 11)) ? Styles.downTail : Styles.upTail} />}
+            {(duration === 1 / 2 || duration === 1 / 4 || duration === 1 / 8) && !noteOffset && <div className={bassClef ? '' : ((((bassClef && shifts > 2) || !bassClef && shifts > 11)) ? Styles.downTail : Styles.upTail)} />}
+            {duration === 1 / 8 && <img className={bassClef ? '' : ((((bassClef && shifts > 2) || !bassClef && shifts > 11)) ? Styles.downFlagEighth : Styles.upFlagEighth)} src={'eighthflag.png'} />}
         </div >
     )
 }

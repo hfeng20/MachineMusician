@@ -3,6 +3,12 @@
 }
 
 .melodyContainer {
+    margin-left: 30px;
+    display: flex;
+}
+
+.lastMelodyContainer {
+    margin-left: 0px;
     display: flex;
 }
 

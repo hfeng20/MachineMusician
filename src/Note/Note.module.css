@@ -21,7 +21,7 @@
     rotate: -10deg;
 }
 
-.quarter {
+.eigth {
     border-radius: 100px;
     height: 15px;
     width: 20px;
@@ -57,6 +57,13 @@
     position: relative;
 }
 
+.eigthNoteContainer {
+    display: grid;
+    margin-right: -20px;
+    margin-left: 10px;
+    position: relative;
+}
+
 .downTail {
     position:absolute;
     height: 50px;
@@ -71,4 +78,26 @@
     width: 2px;
     border: 2px solid black;
     translate: 16px -40px;
+}
+
+.upFlagEighth {
+    z-index: -2;
+    height: 50px;
+    width: 40px;
+    border: none;
+    margin: 0;
+    padding: 0;
+    translate: -20px -40px;
+}
+
+.downFlagEighth {
+    z-index: -2;
+    height: 50px;
+    width: 40px;
+    border: none;
+    margin: 0;
+    padding: 0;
+    transform: rotateY(180deg);
+    rotate: 180deg;
+    translate: -37px 10px;
 }

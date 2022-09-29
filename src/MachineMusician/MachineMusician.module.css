@@ -6,6 +6,10 @@
     position: relative;
 }
 
+.mobileUsers {
+    display: none;
+}
+
 .staff {
      width: 90%;
 }
@@ -45,6 +49,7 @@
 .inputContainer {
     margin-top: 100px;
     display: flex;
+    margin-bottom: 100px;
 }
 
 .input {
@@ -77,3 +82,59 @@
     background-color:maroon;
     cursor: pointer;
 }
+
+@media only screen and (max-width: 800px) {
+    .container {
+        display: none;
+    }
+    .mobileUsers {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+        font-size: 18px;
+        margin: 15vw;
+        margin-top: 200px;
+        text-align: center;
+        font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+    }
+    .oops {
+        font-weight: 300;
+        margin: 10px;
+        font-size: 60px;
+    }
+}
+
+/* @media only screen and (max-width: 700px) {
+    .mobileUsers {
+        margin-top: 100px;
+        margin: 5vw;
+    }
+    .oops {
+        font-weight: 300;
+        margin: 1vw;
+        font-size: 60px;
+    }
+} */
+/* 
+@media only screen and (max-width: 600px) {
+    .mobileUsers {
+        margin: 100px;
+    }
+    .oops {
+        font-weight: 300;
+        margin: 10px;
+        font-size: 60px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .mobileUsers {
+        margin: 80px;
+    }
+    .oops {
+        font-weight: 300;
+        margin: 10px;
+        font-size: 40px;
+    }
+} */

@@ -107,7 +107,6 @@ const Chord: React.FC<ChordProps> = (props) => {
             && ((notes[(index - 1 + notes.length) % notes.length].octave === curNote.octave) && !((notes[(index - 1 + notes.length) % notes.length].note.substring(0, 1) === 'G' && curNote.note.substring(0, 1) === 'A'))))
             || ((notes[(index - 1 + notes.length) % notes.length].note.substring(0, 1) === 'G' && curNote.note.substring(0, 1) === 'A' && curNote.octave === (notes[(index - 1 + notes.length) % notes.length].octave) + 1))) {
             offSet = true
-            console.log('TRUE')
         }
         return (
             <Note key={curNote.note} note={curNote.note} accidentals={tail} octave={curNote.octave} duration={curNote.duration} bassClef={true} chordPosition={index} noteOffset={offSet} />

@@ -129,15 +129,20 @@ const MachineMusician: React.FC = () => {
 
     useEffect(() => {
         if (!melody) return
-        let currentIndex = 0
-        const newMelody = melody.map((note) => {
-            currentIndex = currentIndex + 1
-            console.log(note[0].root)
-            return (<Note
-                note={note[0].root}
-                octave={note[0].octave}
-                duration={note[0].duration}
-            />)
+        let index = 0
+        const newMelody = melody.map((set) => {
+            return set.map((note: any) => {
+                index = index + 1
+                if (note.duration !== 1 / 8) {
+                }
+                return (
+                    <Note
+                        note={note.root}
+                        octave={note.octave}
+                        duration={note.duration}
+                    />
+                )
+            })
         })
         setMelodyElements(newMelody)
     }, [melody])
@@ -149,10 +154,10 @@ const MachineMusician: React.FC = () => {
         }
         chordProgression.map((chord, index) => {
             if (index === 0) {
-                newMelody = [...newMelody, [{ root: scale[chord.value], octave: 5, duration: 1 / 4 }]]
+                newMelody = [...newMelody, [{ root: scale[chord.value], octave: 5, duration: 1 / 8 }]]
                 return
             } if (index === chordProgression.length - 1) {
-                newMelody = [...newMelody, [{ root: scale[chord.value], octave: 5, duration: 1 / 4 }]]
+                newMelody = [...newMelody, [{ root: scale[chord.value], octave: 5, duration: 1 / 8 }]]
                 return
             }
             const previousNote = newMelody[newMelody.length - 1][newMelody[newMelody.length - 1].length - 1]
@@ -161,14 +166,36 @@ const MachineMusician: React.FC = () => {
                 return note.note
             })
             let minDistance = 12
-            let minDistanceNote = { root: 'Z', octave: 5, duration: 1 / 4 }
+            let minDistanceNote = { root: 'Z', octave: 5, duration: 1 / 8 }
             possibleNotes.forEach((note) => {
-                if (Math.abs(LETTERS.indexOf(note.substring(0, 1)) - curIndex) < minDistance) {
+                if (Math.abs(LETTERS.indexOf(note.substring(0, 1)) - curIndex) < minDistance && note !== previousNote.root) {
                     minDistance = LETTERS.indexOf(note.substring(0, 1)) - curIndex
-                    minDistanceNote = { root: note, octave: previousNote.octave, duration: 1 / 4 }
+                    minDistanceNote = { root: note, octave: previousNote.octave, duration: 1 / 8 }
                 }
             })
             newMelody = [...newMelody, [minDistanceNote]]
+        })
+        newMelody = newMelody.map((set, index) => {
+            if (index === newMelody.length - 1) {
+                return [{ ...set[0], duration: 1 }]
+            }
+            const curIndex = scale.indexOf(set[0].root)
+            const nextIndex = scale.indexOf(newMelody[index + 1].root)
+            if (Math.abs(curIndex - nextIndex) < 2) {
+                if (curIndex - nextIndex < 0) {
+                    return [...set, { root: scale[(index + 1) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
+                }
+                return [...set, { root: scale[(index - 2 + scale.length) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
+            } if (Math.abs(curIndex - nextIndex) > 4) {
+                if (curIndex - nextIndex > 0) {
+                    return [...set, { root: scale[(index + 1) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
+                }
+                return [...set, { root: scale[(index - 2 + scale.length) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
+            }
+            if (curIndex < nextIndex) {
+                return [...set, { root: scale[(curIndex + Math.floor(Math.random() * (nextIndex - curIndex) + 1)) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
+            }
+            return [...set, { root: scale[(curIndex - Math.floor(Math.random() * (curIndex - nextIndex + 1)) + scale.length) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
         })
         console.log(newMelody)
         return newMelody
@@ -218,30 +245,36 @@ const MachineMusician: React.FC = () => {
         return progression
     }
     return (
-        <div className={Styles.container}>
-            <Staff melody={melodyElements} chords={chords} />
-            <div className={Styles.inputContainer}>
-                <input
-                    className={Styles.input}
-                    placeholder='Key'
-                    value={key}
-                    onChange={(e) => {
-                        setKey(e.target.value)
-                    }}
-                />
-                <select className={Styles.select} value={quality} onChange={(e) => {
-                    setQuality(e.target.value)
-                }}>
-                    <option value=""></option>
-                    <option value="M">Major</option>
-                    <option value="m">Minor</option>
-                </select>
-                <button
-                    className={Styles.button}
-                    onClick={() => {
-                        setShouldGenerate(true)
-                    }}
-                > Create music! </button>
+        <div>
+            <div className={Styles.container}>
+                <Staff melody={melodyElements} chords={chords} />
+                <div className={Styles.inputContainer}>
+                    <input
+                        className={Styles.input}
+                        placeholder='Key'
+                        value={key}
+                        onChange={(e) => {
+                            setKey(e.target.value)
+                        }}
+                    />
+                    <select className={Styles.select} value={quality} onChange={(e) => {
+                        setQuality(e.target.value)
+                    }}>
+                        <option value=""></option>
+                        <option value="M">Major</option>
+                        <option value="m">Minor</option>
+                    </select>
+                    <button
+                        className={Styles.button}
+                        onClick={() => {
+                            setShouldGenerate(true)
+                        }}
+                    > Create music! </button>
+                </div>
+            </div>
+            <div className={Styles.mobileUsers}>
+                <p className={Styles.oops}>Oops!</p>
+                <p>Sorry, The Machine Musician is not available for mobile users. He sends his regards.</p>
             </div>
         </div>
     )

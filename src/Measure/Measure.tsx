@@ -35,7 +35,7 @@ const Measure: React.FC<MeasureProps> = (props) => {
                 <div className={Styles.chordsContainer}>
                     {chords}
                 </div>
-                <div className={Styles.melodyContainer} >
+                <div className={last ? Styles.lastMelodyContainer : Styles.melodyContainer} >
                     {melody}
                     {/* <Note note='A' octave={5} duration={1 / 4} />
                     <Note note='B' octave={5} duration={1 / 4} /> */}
