@@ -12,6 +12,10 @@ export const MAJOR_SCALE_FORM = [2, 2, 1, 2, 2, 2]
 
 export const MINOR_SCALE_FORM = [2, 1, 2, 2, 1, 3]
 
+export const MAJOR_KEYS = ['C', 'C#', 'D', 'Db', 'E', 'Eb', 'F', 'F#', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B', 'Cb']
+
+export const MINOR_KEYS = ['C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B']
+
 //TODO sanity check
 
 export const POSSIBLE_NOTES = [
@@ -62,8 +66,15 @@ const MachineMusician: React.FC = () => {
     const [melodyElements, setMelodyElements] = useState<any[]>([])
     const [chords, setChords] = useState<any[]>([])
     const [shouldGenerate, setShouldGenerate] = useState(false)
+    const [shouldAllowGenerate, setShouldAllowGenerate] = useState(false)
 
     useEffect(() => {
+        if (sanityCheck()) {
+            setShouldAllowGenerate(true)
+        } else {
+            setShouldAllowGenerate(false)
+            return
+        }
         if (key === '' || quality === '') {
             return
         }
@@ -146,6 +157,15 @@ const MachineMusician: React.FC = () => {
         })
         setMelodyElements(newMelody)
     }, [melody])
+
+    const sanityCheck = (): boolean => {
+        if (!quality || quality === '' || !key || key === '') {
+            return false
+        }
+        if (quality === 'M') {
+            return MAJOR_KEYS.includes(key)
+        } return MINOR_KEYS.includes(key)
+    }
 
     const generateMelody = (): any[] => {
         let newMelody: any[] = []
@@ -259,6 +279,7 @@ const MachineMusician: React.FC = () => {
                     />
                     <select className={Styles.select} value={quality} onChange={(e) => {
                         setQuality(e.target.value)
+
                     }}>
                         <option value=""></option>
                         <option value="M">Major</option>
@@ -266,6 +287,7 @@ const MachineMusician: React.FC = () => {
                     </select>
                     <button
                         className={Styles.button}
+                        disabled={!shouldAllowGenerate}
                         onClick={() => {
                             setShouldGenerate(true)
                         }}
