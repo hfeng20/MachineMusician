@@ -7,6 +7,7 @@ import { LETTERS } from "../Note/Note";
 import StaffHeader from "../StaffHeader/StaffHeader";
 import Measure from "../Measure/Measure";
 import Staff from "../Staff/Staff";
+import AudioPlayer from "../AudioPlayer/AudioPlayer";
 
 export const MAJOR_SCALE_FORM = [2, 2, 1, 2, 2, 2]
 
@@ -217,7 +218,6 @@ const MachineMusician: React.FC = () => {
             }
             return [...set, { root: scale[(curIndex - Math.floor(Math.random() * (curIndex - nextIndex + 1)) + scale.length) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
         })
-        console.log(newMelody)
         return newMelody
     }
 
@@ -298,6 +298,7 @@ const MachineMusician: React.FC = () => {
                 <p className={Styles.oops}>Oops!</p>
                 <p>Sorry, The Machine Musician is not available for mobile users. He sends his regards.</p>
             </div>
+            <AudioPlayer notes={[{ note: 'B', octave: 0 }]} shouldAllowPlay={true} />
         </div>
     )
 }
