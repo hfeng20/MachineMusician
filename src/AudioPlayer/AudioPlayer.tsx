@@ -141,31 +141,41 @@ const AudioPlayer: React.FC<AudioPlayerProps> = (props) => {
 
     const getAudioFunction = (note: string, octave: number) => {
         switch (note) {
-            case 'Ab' || 'G#':
+            case 'G#':
+            case 'Ab':
                 return PlayNotes[0 + ((octave - 2) * 12)]
             case 'A':
                 return PlayNotes[1 + ((octave - 2) * 12)]
-            case 'A#' || 'Bb':
+            case 'Bb':
+            case 'A#':
                 return PlayNotes[2 + ((octave - 2) * 12)]
-            case 'B' || 'Cb':
+            case 'Cb':
+            case 'B':
                 return PlayNotes[3 + ((octave - 2) * 12)]
-            case 'C' || 'B#':
+            case 'B#':
+            case 'C':
                 return PlayNotes[4 + ((octave - 2) * 12)]
-            case 'C#' || 'Db':
+            case 'Db':
+            case 'C#':
                 return PlayNotes[5 + ((octave - 2) * 12)]
             case 'D':
                 return PlayNotes[6 + ((octave - 2) * 12)]
-            case 'D#' || 'Eb':
+            case 'Eb':
+            case 'D#':
                 return PlayNotes[7 + ((octave - 2) * 12)]
-            case 'E' || 'Fb':
+            case 'Fb':
+            case 'E':
                 return PlayNotes[8 + ((octave - 2) * 12)]
-            case 'F' || 'Eb':
+            case 'E#':
+            case 'F':
                 return PlayNotes[9 + ((octave - 2) * 12)]
-            case 'F#' || 'Gb':
+            case 'Gb':
+            case 'F#':
                 return PlayNotes[10 + ((octave - 2) * 12)]
             case 'G':
                 return PlayNotes[11 + ((octave - 2) * 12)]
         }
+        console.log('FAIL ' + note)
     }
 
     return (

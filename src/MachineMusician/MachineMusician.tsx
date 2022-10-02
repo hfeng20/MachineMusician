@@ -211,28 +211,30 @@ const MachineMusician: React.FC = () => {
             if (index === newMelody.length - 1) {
                 return [{ ...set[0], duration: 1 }]
             }
-            const curIndex = scale.indexOf(set[0].root)
-            // console.log(scale)
-            // console.log(newMelody[index + 1])
-            // console.log(scale.indexOf(newMelody[index + 1][0].root))
-            const nextIndex = scale.indexOf(newMelody[index + 1].root)
+            let curIndex = scale.indexOf(set[0].root)
+            let nextIndex = scale.indexOf(newMelody[index + 1][0].root)
+            if (curIndex - nextIndex > 5) {
+                nextIndex += scale.length
+            } else if (nextIndex - curIndex > 5) {
+                curIndex += scale.length
+            }
             if (Math.abs(curIndex - nextIndex) < 2) {
                 if (curIndex - nextIndex < 0) {
-                    return [...set, { root: scale[(index + 2) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
+                    return [...set, { root: scale[(curIndex + 2) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
                 }
-                return [...set, { root: scale[(index - 2 + scale.length) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
+                return [...set, { root: scale[(curIndex - 2 + scale.length) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
             } if (Math.abs(curIndex - nextIndex) > 4) {
                 if (curIndex - nextIndex > 0) {
-                    // console.log('test ' + curIndex + ' ' + nextIndex)
-
-                    return [...set, { root: scale[(index + 1) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
+                    return [...set, { root: scale[(curIndex + 2) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
                 }
-                return [...set, { root: scale[(index - 2 + scale.length) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
+                return [...set, { root: scale[(curIndex - 2 + scale.length) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
             }
             if (curIndex < nextIndex) {
-                return [...set, { root: scale[((curIndex + Math.floor(Math.random() * (nextIndex - curIndex + 1))) + 1) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
+                const middleIndex = ((curIndex + Math.floor(Math.random() * (nextIndex - curIndex + 1))) + 1) % scale.length
+                return [...set, { root: scale[middleIndex], octave: set[0].octave, duration: 1 / 8 }]
             }
-            return [...set, { root: scale[((curIndex - Math.floor(Math.random() * (curIndex - nextIndex + 1)) + 1) + scale.length) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
+            const middleIndex = ((curIndex - Math.floor(Math.random() * (curIndex - nextIndex + 1)) + 1) + scale.length) % scale.length
+            return [...set, { root: scale[middleIndex], octave: set[0].octave, duration: 1 / 8 }]
         })
         return newMelody
     }
