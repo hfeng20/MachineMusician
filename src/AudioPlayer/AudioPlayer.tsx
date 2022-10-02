@@ -203,6 +203,9 @@ const AudioPlayer: React.FC<AudioPlayerProps> = (props) => {
                     currentDelayMs = currentDelayMs + note.duration * 4000
                 })
             })
+            window.setTimeout(() => {
+                setPlaying(false)
+            }, currentDelayMs)
         }}>
             <p className={shouldAllowPlay ? Styles.soundButton : Styles.soundButtonDisabled}>
                 {playing ? '🔊' : '🔇'}

@@ -135,11 +135,11 @@ const MachineMusician: React.FC = () => {
                 structure={'5'}
             />)
         })
-        setChordsNotes(chordProgression.map((chord) => {
+        setChordsNotes(chordProgression.map((chord, index) => {
             return {
                 root: scale[chord.value],
                 octave: LETTERS.indexOf(scale[chord.value].substring(0, 1)) >= LETTERS.indexOf('F') ? 2 : 3,
-                duration: (chord.value === 0 && currentIndex === chordProgression.length) ? 1 : 1 / 4,
+                duration: (chord.value === 0 && index === chordProgression.length - 1) ? 1 : 1 / 4,
                 volume: 1,
                 quality: chord.quality,
                 structure: '5',
