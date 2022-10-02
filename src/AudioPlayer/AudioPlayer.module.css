@@ -1,3 +1,18 @@
-.testDiv {
-    border: 1px solid black;
+.sound {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100px;
+}
+
+.soundButton {
+    align-self: center;;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.soundButtonDisabled {
+    align-self: center;
+    font-size: 40px;
+    cursor: not-allowed;
 }
