@@ -241,16 +241,44 @@ const MachineMusician: React.FC = () => {
                 }]
             } if (Math.abs(curIndex - nextIndex) > 4) {
                 if (curIndex - nextIndex > 0) {
-                    return [...set, { root: scale[(curIndex + 2) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
+                    return [...set, {
+                        root: scale[(curIndex + 2) % scale.length],
+                        octave: LETTERS.indexOf(set[0].root.substring(0, 1)) - LETTERS.indexOf(scale[(curIndex + 2) % scale.length].substring(0, 1)) > 4
+                            ? set[0].octave + 1 :
+                            LETTERS.indexOf(scale[(curIndex + 2) % scale.length].substring(0, 1)) - LETTERS.indexOf(set[0].root.substring(0, 1)) > 4
+                                ? set[0].octave - 1 :
+                                set[0].octave,
+                        duration: 1 / 8
+                    }]
                 }
-                return [...set, { root: scale[(curIndex - 2 + scale.length) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
+                return [...set, {
+                    root: scale[(curIndex - 2 + scale.length) % scale.length],
+                    octave: LETTERS.indexOf(set[0].root.substring(0, 1)) - LETTERS.indexOf(scale[(curIndex - 2 + scale.length) % scale.length].substring(0, 1)) > 4
+                        ? set[0].octave + 1 :
+                        LETTERS.indexOf(scale[(curIndex - 2 + scale.length) % scale.length].substring(0, 1)) - LETTERS.indexOf(set[0].root.substring(0, 1)) > 4
+                            ? set[0].octave - 1 :
+                            set[0].octave,
+                    duration: 1 / 8
+                }]
             }
             if (curIndex < nextIndex) {
                 const middleIndex = ((curIndex + Math.floor(Math.random() * (nextIndex - curIndex + 1))) + 1) % scale.length
-                return [...set, { root: scale[middleIndex], octave: set[0].octave, duration: 1 / 8 }]
+                return [...set, {
+                    root: scale[middleIndex],
+                    octave: LETTERS.indexOf(set[0].root.substring(0, 1)) - LETTERS.indexOf(scale[middleIndex]) > 6 ? set[0].octave + 1 :
+                        LETTERS.indexOf(scale[middleIndex]) - LETTERS.indexOf(set[0].root.substring(0, 1)) > 6 ? set[0].octave - 1 :
+                            set[0].octave,
+                    duration: 1 / 8
+                }]
             }
             const middleIndex = ((curIndex - Math.floor(Math.random() * (curIndex - nextIndex + 1)) + 1) + scale.length) % scale.length
-            return [...set, { root: scale[middleIndex], octave: set[0].octave, duration: 1 / 8 }]
+            return [...set, {
+                root: scale[middleIndex],
+                octave: LETTERS.indexOf(set[0].root.substring(0, 1)) - LETTERS.indexOf(scale[middleIndex]) > 6 ? set[0].octave + 1 :
+                    LETTERS.indexOf(scale[middleIndex]) - LETTERS.indexOf(set[0].root.substring(0, 1)) > 6 ? set[0].octave - 1 :
+                        set[0].octave,
+                duration: 1 / 8
+            }]
         })
         return newMelody
     }
