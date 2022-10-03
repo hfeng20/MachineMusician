@@ -142,8 +142,9 @@ const AudioPlayer: React.FC<AudioPlayerProps> = (props) => {
     const getAudioFunction = (note: string, octave: number) => {
         switch (note) {
             case 'G#':
-            case 'Ab':
                 return PlayNotes[0 + ((octave - 2) * 12)]
+            case 'Ab':
+                return PlayNotes[0 + ((octave - 3) * 12)]
             case 'A':
                 return PlayNotes[1 + ((octave - 2) * 12)]
             case 'Bb':
@@ -175,7 +176,6 @@ const AudioPlayer: React.FC<AudioPlayerProps> = (props) => {
             case 'G':
                 return PlayNotes[11 + ((octave - 2) * 12)]
         }
-        console.log('FAIL ' + note)
     }
 
     return (
@@ -190,9 +190,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = (props) => {
             setPlaying(true)
             let currentDelayMs = 0
             notes.map((set, index) => {
-                console.log(index)
                 const chordNotes = getChordNotes(chords[index].root, chords[index].octave, chords[index].duration, 1, chords[index].quality, '')
-                console.log(chordNotes)
                 chordNotes.map((note) => {
                     const noteAudio = getAudioFunction(note.note, note.octave)
                     window.setTimeout(() => {

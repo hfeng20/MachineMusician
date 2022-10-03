@@ -220,9 +220,25 @@ const MachineMusician: React.FC = () => {
             }
             if (Math.abs(curIndex - nextIndex) < 2) {
                 if (curIndex - nextIndex < 0) {
-                    return [...set, { root: scale[(curIndex + 2) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
+                    return [...set, {
+                        root: scale[(curIndex + 2) % scale.length],
+                        octave: LETTERS.indexOf(set[0].root.substring(0, 1)) - LETTERS.indexOf(scale[(curIndex + 2) % scale.length].substring(0, 1)) > 4
+                            ? set[0].octave + 1 :
+                            LETTERS.indexOf(scale[(curIndex + 2) % scale.length].substring(0, 1)) - LETTERS.indexOf(set[0].root.substring(0, 1)) > 4
+                                ? set[0].octave - 1 :
+                                set[0].octave,
+                        duration: 1 / 8
+                    }]
                 }
-                return [...set, { root: scale[(curIndex - 2 + scale.length) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
+                return [...set, {
+                    root: scale[(curIndex - 2 + scale.length) % scale.length],
+                    octave: LETTERS.indexOf(set[0].root.substring(0, 1)) - LETTERS.indexOf(scale[(curIndex - 2 + scale.length) % scale.length].substring(0, 1)) > 4
+                        ? set[0].octave + 1 :
+                        LETTERS.indexOf(scale[(curIndex - 2 + scale.length) % scale.length].substring(0, 1)) - LETTERS.indexOf(set[0].root.substring(0, 1)) > 4
+                            ? set[0].octave - 1 :
+                            set[0].octave,
+                    duration: 1 / 8
+                }]
             } if (Math.abs(curIndex - nextIndex) > 4) {
                 if (curIndex - nextIndex > 0) {
                     return [...set, { root: scale[(curIndex + 2) % scale.length], octave: set[0].octave, duration: 1 / 8 }]
