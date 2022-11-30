@@ -1,4 +1,4 @@
-# The Machine Musician
+# MachineMusician
 
 A machine learning program that generates and also plays its unique, random, and original musical compositions to you.
 
